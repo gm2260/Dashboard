@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بوابة لوحات التحكم ومتابعة التكاليف | Incorta Hub</title>
+    <!-- استدعاء خط تجوال ومكتبة أيقونات FontAwesome -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary: #1e3a8a;
+            --primary-light: #3b82f6;
+            --secondary: #0f766e;
+            --bg-page: #f8fafc;
+            --bg-card: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --badge-success: #dcfce7;
+            --badge-success-text: #15803d;
+            --badge-warning: #fef3c7;
+            --badge-warning-text: #b45309;
+            --badge-info: #e0f2fe;
+            --badge-info-text: #0369a1;
+            --badge-purple: #f3e8ff;
+            --badge-purple-text: #7e22ce;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --radius: 12px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Tajawal', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-page);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding-bottom: 50px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #1e3a8a 0%, #0f766e 100%);
+            color: #ffffff;
+            padding: 40px 0 30px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow-md);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .header-title h1 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .header-title p {
+            color: #e2e8f0;
+            font-size: 0.95rem;
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            padding: 20px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: transform 0.2s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+        }
+
+        .stat-info h3 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .stat-info p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* Search & Filter Bar */
+        .toolbar {
+            background: var(--bg-card);
+            padding: 15px 20px;
+            border-radius: var(--radius);
+            border: 1px solid var(--border-color);
+            margin-bottom: 25px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .search-box {
+            position: relative;
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 10px 40px 10px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 0.95rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .search-box input:focus {
+            border-color: var(--primary-light);
+        }
+
+        .search-box i {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 8px 14px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background: #ffffff;
+            color: var(--text-main);
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background: var(--primary);
+            color: #ffffff;
+            border-color: var(--primary);
+        }
+
+        /* Section Headings */
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin: 30px 0 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--primary);
+        }
+
+        /* Dashboard Cards Grid */
+        .dashboards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .dash-card {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
+            padding: 22px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: all 0.25s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dash-card:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-3px);
+            border-color: #cbd5e1;
+        }
+
+        .dash-card.featured {
+            border: 2px solid #0f766e;
+            background: #f0fdfa;
+        }
+
+        .dash-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+            gap: 10px;
+        }
+
+        .dash-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--primary);
+            word-break: break-word;
+        }
+
+        .badge {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            white-space: nowrap;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .badge-success { background: var(--badge-success); color: var(--badge-success-text); }
+        .badge-warning { background: var(--badge-warning); color: var(--badge-warning-text); }
+        .badge-info { background: var(--badge-info); color: var(--badge-info-text); }
+        .badge-purple { background: var(--badge-purple); color: var(--badge-purple-text); }
+
+        .dash-body {
+            margin-bottom: 20px;
+            flex: 1;
+        }
+
+        .dash-desc {
+            font-size: 0.9rem;
+            color: var(--text-main);
+            margin-bottom: 12px;
+            line-height: 1.5;
+        }
+
+        .dash-note {
+            background: #fffbeb;
+            border-right: 3px solid #f59e0b;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            color: #92400e;
+            margin-top: 8px;
+        }
+
+        .dash-footer {
+            margin-top: auto;
+            border-top: 1px solid var(--border-color);
+            padding-top: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .btn-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 9px 16px;
+            border-radius: 8px;
+            background: var(--primary);
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: background 0.2s ease;
+            width: 100%;
+        }
+
+        .btn-link:hover {
+            background: #1d4ed8;
+        }
+
+        .btn-link.featured-btn {
+            background: #0f766e;
+        }
+
+        .btn-link.featured-btn:hover {
+            background: #115e59;
+        }
+
+        .btn-disabled {
+            background: #cbd5e1;
+            color: #64748b;
+            cursor: not-allowed;
+        }
+
+        .btn-disabled:hover {
+            background: #cbd5e1;
+        }
+
+        /* Pipeline / In-Progress List */
+        .pipeline-card {
+            background: #ffffff;
+            border-radius: var(--radius);
+            border: 1px dashed #cbd5e1;
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            margin-bottom: 12px;
+        }
+
+        .pipeline-info h4 {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 3px;
+        }
+
+        .pipeline-info p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* Alert / Instructions Section */
+        .notice-box {
+            background: #ffffff;
+            border-radius: var(--radius);
+            border-right: 5px solid var(--primary);
+            padding: 20px;
+            box-shadow: var(--shadow-sm);
+            margin-top: 35px;
+        }
+
+        .notice-box h3 {
+            font-size: 1.1rem;
+            color: var(--primary);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .notice-box ul {
+            padding-right: 20px;
+            font-size: 0.9rem;
+            color: var(--text-main);
+        }
+
+        .notice-box li {
+            margin-bottom: 8px;
+        }
+
+        @media (max-width: 768px) {
+            .header-title h1 {
+                font-size: 1.4rem;
+            }
+            .dashboards-grid {
+                grid-template-columns: 1fr;
+            }
+            .toolbar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- الهيدر الرئيسي -->
+    <header>
+        <div class="container header-content">
+            <div class="header-title">
+                <h1><i class="fa-solid fa-chart-pie"></i> بوابة لوحات التحكم ومتابعة التكاليف</h1>
+                <p>دليل الوصول السريع ومتابعة إنجاز وتحديثات لوحات تحكم منصة إنكورتا (Incorta)</p>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+
+        <!-- بطاقات ملخص الإنجاز -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon" style="background: #e0f2fe; color: #0284c7;">
+                    <i class="fa-solid fa-layer-group"></i>
+                </div>
+                <div class="stat-info">
+                    <h3>7</h3>
+                    <p>لوحات تحكم منجزة ومتاحة</p>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon" style="background: #fef3c7; color: #d97706;">
+                    <i class="fa-solid fa-arrows-rotate"></i>
+                </div>
+                <div class="stat-info">
+                    <h3>2</h3>
+                    <p>لوحات جاري تحديثها</p>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon" style="background: #f3e8ff; color: #9333ea;">
+                    <i class="fa-solid fa-hammer"></i>
+                </div>
+                <div class="stat-info">
+                    <h3>2</h3>
+                    <p>لوحات قيد التطوير الجديد</p>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon" style="background: #dcfce7; color: #16a34a;">
+                    <i class="fa-solid fa-circle-check"></i>
+                </div>
+                <div class="stat-info">
+                    <h3>1</h3>
+                    <p>لوحة جديدة تحت المراجعة</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- شريط البحث والفلترة -->
+        <div class="toolbar">
+            <div class="search-box">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="searchInput" placeholder="ابحث باسم اللوحة أو الوصف..." onkeyup="filterDashboards()">
+            </div>
+            <div class="filter-buttons">
+                <button class="filter-btn active" onclick="setFilter('all', this)">الكل</button>
+                <button class="filter-btn" onclick="setFilter('ready', this)">جاهزة للاستخدام</button>
+                <button class="filter-btn" onclick="setFilter('updating', this)">قيد التحديث</button>
+                <button class="filter-btn" onclick="setFilter('review', this)">تحت المراجعة</button>
+            </div>
+        </div>
+
+        <!-- قسم لوحة التحكم الجديدة المميزة -->
+        <div class="section-title">
+            <i class="fa-solid fa-star text-amber-500"></i>
+            <span>لوحة تحكم جديدة (تحت التحقق والمراجعة)</span>
+        </div>
+
+        <div class="dashboards-grid">
+            <div class="dash-card featured" data-category="review" data-name="داش بورد المصاريف على مركز التكلفة لقسم الإنتاج production costs">
+                <div class="dash-header">
+                    <h3 class="dash-title">مصاريف مراكز التكلفة - قسم الإنتاج</h3>
+                    <span class="badge badge-info"><i class="fa-solid fa-vial"></i> تحت المراجعة والتدقيق</span>
+                </div>
+                <div class="dash-body">
+                    <p class="dash-desc">
+                        تتضمن حالياً مصاريف أقسام <strong>(الجدود، الأمهات، البياض)</strong> على مستوى <strong>(تربية وإنتاج)</strong> لتسهيل تتبع المصاريف ومراجعتها بدقة.
+                    </p>
+                    <div class="dash-note">
+                        <i class="fa-solid fa-info-circle"></i> يرجى الإطلاع ومطابقة الأرقام الخاصة بها للمساهمة في استكمالها وتطويرها.
+                    </div>
+                </div>
+                <div class="dash-footer">
+                    <a href="https://bi.al-watania.com/incorta/#/dashboard/58f9b6e3-58db-40da-810f-bad6ad9f7882" target="_blank" rel="noopener noreferrer" class="btn-link featured-btn">
+                        <span>فتح لوحة الإنتاج في إنكورتا</span>
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- قسم لوحات التحكم الأساسية -->
+        <div class="section-title">
+            <i class="fa-solid fa-table-columns"></i>
+            <span>لوحات التحكم المتاحة والمنجزة</span>
+        </div>
+
+        <div class="dashboards-grid" id="mainDashboards">
+
+            <!-- Unit Cost -->
+            <div class="dash-card" data-category="updating" data-name="unit cost تكلفة الوحدة انحراف الصنف">
+                <div class="dash-header">
+                    <h3 class="dash-title">Unit Cost</h3>
+                    <span class="badge badge-warning"><i class="fa-solid fa-wrench"></i> جاري التحديث</span>
+                </div>
+                <div class="dash-body">
+                    <p class="dash-desc">تعرض تكلفة الوحدة الواحدة على مستوى كل موقع وتبين الإنحراف للصنف على مستوى كل شهر.</p>
+                    <div class="dash-note">
+                        <i class="fa-solid fa-circle-notch fa-spin"></i> جاري إضافة الكميات مع التكلفة لمعرفة الإنحرافات كمية وقيمة.
+                    </div>
+                </div>
+                <div class="dash-footer">
+                    <a href="https://bi.al-watania.com/incorta/#/dashboard/5e1df6ad-3e5b-4bfb-bd0e-40ef5d691a64" target="_blank" rel="noopener noreferrer" class="btn-link">
+                        <span>فتح اللوحة</span>
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- FI_Costs_By_GL -->
+            <div class="dash-card" data-category="ready" data-name="fi costs by gl مصاريف الشركة رواتب إهلاك مصاريف غير مباشرة">
+                <div class="dash-header">
+                    <h3 class="dash-title">FI_Costs_By_GL</h3>
+                    <span class="badge badge-success"><i class="fa-solid fa-check"></i> متاحة وجاهزة</span>
+                </div>
+                <div class="dash-body">
+                    <p class="dash-desc">تعرض مصاريف الشركة بالكامل بشكل شهري وتحليلها على شكل (رواتب، إهلاك، مصاريف غير مباشرة).</p>
+                </div>
+                <div class="dash-footer">
+                    <a href="https://bi.al-watania.com/incorta/#/dashboard/c0bef6f4-e37a-45f6-8894-f947ca5562da" target="_blank" rel="noopener noreferrer" class="btn-link">
+                        <span>فتح اللوحة</span>
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Share Services EXP Monthly -->
+            <div class="dash-card" data-category="ready" data-name="share services exp monthly مصاريف المواقع الخدمية">
+                <div class="dash-header">
+                    <h3 class="dash-title">Share Services EXP Monthly</h3>
+                    <span class="badge badge-success"><i class="fa-solid fa-check"></i> متاحة وجاهزة</span>
+                </div>
+                <div class="dash-body">
+                    <p class="dash-desc">تعرض مصاريف المواقع الخدمية على مستوى الشركة شهرياً وتحليلها إلى (رواتب، إهلاك، مصاريف غير مباشرة).</p>
+                </div>
+                <div class="dash-footer">
+                    <a href="https://bi.al-watania.com/incorta/#/dashboard/a02d6c06-9afd-4caf-9767-e4f291c601b0" target="_blank" rel="noopener noreferrer" class="btn-link">
+                        <span>فتح اللوحة</span>
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Manufacturing EXP Monthly -->
+            <div class="dash-card" data-category="ready" data-name="manufacturing exp monthly مصاريف المصانع">
+                <div class="dash-header">
+                    <h3 class="dash-title">Manufacturing EXP Monthly</h3>
+                    <span class="badge badge-success"><i class="fa-solid fa-check"></i> متاحة وجاهزة</span>
+                </div>
+                <div class="dash-body">
+                    <p class="dash-desc">تعرض مصاريف المصانع على مستوى الشركة شهرياً وتحليلها إلى (رواتب، إهلاك، مصاريف غير مباشرة).</p>
+                </div>
+                <div class="dash-footer">
+                    <a href="https://bi.al-watania.com/incorta/#/dashboard/32d022a1-87cd-4ef3-b28b-7ed497a01954" target="_blank" rel="noopener noreferrer" class="btn-link">
+                        <span>فتح اللوحة</span>
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Fleet_Costs -->
+            <div class="dash-card" data-category="ready" data-name="fleet costs تكاليف صيانة السيارات والمعدات order">
+                <div class="dash-header">
+                    <h3 class="dash-title">Fleet_Costs</h3>
+                    <span class="badge badge-success"><i class="fa-solid fa-check"></i> متاحة وجاهزة</span>
+                </div>
+                <div class="dash-body">
+                    <p class="dash-desc">تعرض تكاليف صيانة أسطول السيارات والمعدات على مستوى الـ Order بدقة وتفصيل.</p>
+                </div>
+                <div class="dash-footer">
+                    <a href="https://bi.al-watania.com/incorta/#/dashboard/5f3775f9-2b73-45de-99b2-97da4106526c" target="_blank" rel="noopener noreferrer" class="btn-link">
+                        <span>فتح اللوحة</span>
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- FAGLL03H -->
+            <div class="dash-card" data-category="updating" data-name="fagll03h تكاليف gl فترات محددة">
+                <div class="dash-header">
+                    <h3 class="dash-title">FAGLL03H</h3>
+                    <span class="badge badge-warning"><i class="fa-solid fa-wrench"></i> جاري التحديث</span>
+                </div>
+                <div class="dash-body">
+                    <p class="dash-desc">لعرض التكاليف على مستوى الـ GL لفترة زمنية محددة أو عدة فترات محاسبية.</p>
+                    <div class="dash-note">
+                        <i class="fa-solid fa-circle-notch fa-spin"></i> جاري إضافة كامل التفاصيل على مستوى الـ GL للوصول لتحليل مالي أعمق.
+                    </div>
+                </div>
+                <div class="dash-footer">
+                    <a href="https://bi.al-watania.com/incorta/#/dashboard/66007b40-5dad-4d04-8d56-c4bd904dca34" target="_blank" rel="noopener noreferrer" class="btn-link">
+                        <span>فتح اللوحة</span>
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- قسم لوحات التحكم قيد البناء والتطوير -->
+        <div class="section-title">
+            <i class="fa-solid fa-bars-progress"></i>
+            <span>لوحات تحكم جديدة (قيد التطوير والتنفيذ)</span>
+        </div>
+
+        <div class="pipeline-card">
+            <div class="pipeline-info">
+                <h4><i class="fa-solid fa-spinner fa-spin text-purple-600"></i> لوحة تحكم "ZBOM"</h4>
+                <p>جاري العمل على إنشائها متضمنة التكاليف لتسهيل ومتابعة سلاسل العمل والتشغيل على منصة إنكورتا.</p>
+            </div>
+            <span class="badge badge-purple">قريباً</span>
+        </div>
+
+        <div class="pipeline-card">
+            <div class="pipeline-info">
+                <h4><i class="fa-solid fa-spinner fa-spin text-purple-600"></i> لوحة تحكم "معادلة التكاليف لنشاط اللاحم"</h4>
+                <p>جاري تصميم وتطبيق معادلات التكاليف المتخصصة لقطاع اللاحم على منصة إنكورتا.</p>
+            </div>
+            <span class="badge badge-purple">قريباً</span>
+        </div>
+
+        <!-- صندوق الملاحظات والتوجيهات -->
+        <div class="notice-box">
+            <h3><i class="fa-solid fa-triangle-exclamation text-amber-600"></i> تعليمات وملاحظات هامة</h3>
+            <ul>
+                <li>يرجى تجربة لوحات التحكم ومطابقة الأرقام والتحقق منها، وفي حال وجود أي ملاحظة أو طلب تعديل نأمل إعلامنا فوراً.</li>
+                <li>في حال الرغبة بعمل نسخة مخصصة من أي تقرير أو طلب لوحة تحكم جديدة، يرجى التنسيق المسبق معنا لتفادي تداخل البيانات في التقارير الأساسية.</li>
+                <li>نرحب بجميع المقترحات التطويرية التي تساهم في تحسين وسرعة متابعة التكاليف والمصاريف.</li>
+            </ul>
+        </div>
+
+    </div>
+
+    <!-- كود الجافاسكربت للفلترة والبحث -->
+    <script>
+        let currentFilter = 'all';
+
+        function setFilter(filter, element) {
+            currentFilter = filter;
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            element.classList.add('active');
+            filterDashboards();
+        }
+
+        function filterDashboards() {
+            const query = document.getElementById('searchInput').value.toLowerCase().trim();
+            const cards = document.querySelectorAll('.dash-card');
+
+            cards.forEach(card => {
+                const name = card.getAttribute('data-name').toLowerCase();
+                const category = card.getAttribute('data-category');
+                
+                const matchesSearch = name.includes(query);
+                const matchesFilter = (currentFilter === 'all') || (category === currentFilter);
+
+                if (matchesSearch && matchesFilter) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>
