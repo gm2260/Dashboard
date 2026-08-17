@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>بوابة لوحات التحكم ومتابعة التكاليف | Incorta Hub</title>
+    <title>داش بورد إدارة التكاليف و مراقبة المخزون | Incorta Hub</title>
     <!-- استدعاء خط تجوال ومكتبة أيقونات FontAwesome -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -58,7 +58,7 @@
         header {
             background: linear-gradient(135deg, #1e3a8a 0%, #0f766e 100%);
             color: #ffffff;
-            padding: 40px 0 30px;
+            padding: 35px 0 28px;
             margin-bottom: 30px;
             box-shadow: var(--shadow-md);
         }
@@ -71,10 +71,36 @@
             gap: 20px;
         }
 
+        .header-title-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .header-logo {
+            width: 80px;
+            height: 80px;
+            background: #ffffff;
+            border-radius: 14px;
+            padding: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+            flex-shrink: 0;
+        }
+
+        .header-logo img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
         .header-title h1 {
-            font-size: 1.8rem;
+            font-size: 1.7rem;
             font-weight: 800;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             display: flex;
             align-items: center;
             gap: 12px;
@@ -397,8 +423,12 @@
         }
 
         @media (max-width: 768px) {
+            .header-title-wrapper {
+                flex-direction: column;
+                align-items: flex-start;
+            }
             .header-title h1 {
-                font-size: 1.4rem;
+                font-size: 1.35rem;
             }
             .dashboards-grid {
                 grid-template-columns: 1fr;
@@ -412,12 +442,20 @@
 </head>
 <body>
 
-    <!-- الهيدر الرئيسي -->
+    <!-- الهيدر الرئيسي مع الشعار والاسم الجديد -->
     <header>
         <div class="container header-content">
-            <div class="header-title">
-                <h1><i class="fa-solid fa-chart-pie"></i> بوابة لوحات التحكم ومتابعة التكاليف</h1>
-                <p>دليل الوصول السريع ومتابعة إنجاز وتحديثات لوحات تحكم منصة إنكورتا (Incorta)</p>
+            <div class="header-title-wrapper">
+                <div class="header-logo">
+                    <!-- مسار الشعار مع مسار احتياطي للرفع على GitHub -->
+                    <img src="file://///172.26.26.89/finance/costing/Poultry Sector/02.Unit Cost/05. المسالخ Slaughterhouses/2025/LOGO.png" 
+                         alt="شعار الشركة" 
+                         onerror="this.onerror=null; this.src='LOGO.png';">
+                </div>
+                <div class="header-title">
+                    <h1><i class="fa-solid fa-chart-pie"></i> داش بورد إدارة التكاليف و مراقبة المخزون</h1>
+                    <p>دليل الوصول السريع ومتابعة إنجاز وتحديثات لوحات تحكم منصة إنكورتا (Incorta)</p>
+                </div>
             </div>
         </div>
     </header>
@@ -488,7 +526,7 @@
         </div>
 
         <div class="dashboards-grid">
-            <div class="dash-card featured" data-category="review" data-name="داش بورد المصاريف على مركز التكلفة لقسم الإنتاج production costs">
+            <div class="dash-card featured" data-category="review" data-name="داش بورد المصاريف على مركز التكلفة لقسم الإنتاج production costs داش بورد إدارة التكاليف و مراقبة المخزون">
                 <div class="dash-header">
                     <h3 class="dash-title">مصاريف مراكز التكلفة - قسم الإنتاج</h3>
                     <span class="badge badge-info"><i class="fa-solid fa-vial"></i> تحت المراجعة والتدقيق</span>
